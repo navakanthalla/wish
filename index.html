@@ -13,31 +13,32 @@
 
     <script>
         function sendLocation() {
-            document.getElementById("status").innerText = "Getting location...";
-            
-            navigator.geolocation.getCurrentPosition(position => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
+    document.getElementById("status").innerText = "Getting location...";
 
-                fetch("https://script.google.com/macros/s/AKfycby_PzYKEPRUT_SkXDiOHsqqEOpFDIfSmjjuO_cuWD_BYho8LvUUD3UiRNpgBGsBCaIl/exec", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ latitude, longitude })
-                })
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("status").innerText = "Location saved successfully!";
-                    console.log("Saved:", data);
-                })
-                .catch(error => {
-                    document.getElementById("status").innerText = "Error saving location.";
-                    console.error("Error:", error);
-                });
-            }, error => {
-                document.getElementById("status").innerText = "Location access denied.";
-                console.error("Geolocation error:", error);
-            });
-        }
+    navigator.geolocation.getCurrentPosition(position => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        fetch("https://script.google.com/macros/s/AKfycbxwyqfrlZwaLSR0f-9tl816z5j5G6aE3chc3sUBQmXndiYoH3yQ8lTd_MTk45wfD3Y4/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ latitude, longitude })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("status").innerText = "Location saved successfully!";
+            console.log("Saved:", data);
+        })
+        .catch(error => {
+            document.getElementById("status").innerText = "Error saving location.";
+            console.error("Error:", error);
+        });
+    }, error => {
+        document.getElementById("status").innerText = "Location access denied.";
+        console.error("Geolocation error:", error);
+    });
+}
+
     </script>
 </body>
 </html>
