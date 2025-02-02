@@ -12,7 +12,7 @@
     <p id="status"></p>
 
     <script>
-        function sendLocation() {
+       function sendLocation() {
     document.getElementById("status").innerText = "Getting location...";
 
     navigator.geolocation.getCurrentPosition(position => {
@@ -22,12 +22,11 @@
         fetch("https://script.google.com/macros/s/AKfycbxwyqfrlZwaLSR0f-9tl816z5j5G6aE3chc3sUBQmXndiYoH3yQ8lTd_MTk45wfD3Y4/exec", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ latitude, longitude })
+            body: JSON.stringify({ latitude, longitude }),
+            mode: "no-cors"  // Added no-cors to bypass CORS restrictions
         })
-        .then(response => response.json())
-        .then(data => {
+        .then(() => {
             document.getElementById("status").innerText = "Location saved successfully!";
-            console.log("Saved:", data);
         })
         .catch(error => {
             document.getElementById("status").innerText = "Error saving location.";
