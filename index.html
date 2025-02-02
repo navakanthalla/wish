@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wish</title>
+</head>
+<body>
+    <h2>User Location Tracker</h2>
+    <p>Click the button below to save your location to Google Sheets.</p>
+    <button onclick="sendLocation()">Save My Location</button>
+    <p id="status"></p>
+
+    <script>
+        function sendLocation() {
+            document.getElementById("status").innerText = "Getting location...";
+            
+            navigator.geolocation.getCurrentPosition(position => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                fetch("https://script.google.com/macros/s/AKfycbx3Dbp00t6vGyOBZ8-UzUdeS2h9gm63Cb_gqVYonce3gvUa4lm6PdeNImAFJRCpLr51/exec", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ latitude, longitude })
+                })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("status").innerText = "Location saved successfully!";
+                    console.log("Saved:", data);
+                })
+                .catch(error => {
+                    document.getElementById("status").innerText = "Error saving location.";
+                    console.error("Error:", error);
+                });
+            }, error => {
+                document.getElementById("status").innerText = "Location access denied.";
+                console.error("Geolocation error:", error);
+            });
+        }
+    </script>
+</body>
+</html>
